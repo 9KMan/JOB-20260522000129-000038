@@ -1,0 +1,16 @@
+{
+  "rules": [
+    {
+      "description": "Default sampling rule",
+      "host": "*",
+      "http_method": "*",
+      "url_path": "*",
+      "fixed_target": 5,
+      "rate": 0.1
+    }
+  ],
+  "default_rule": {
+    "fixed_target": 2,
+    "rate": 0.05
+  }
+}

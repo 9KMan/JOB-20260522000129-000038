@@ -1,0 +1,42 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "properties": {
+        "title": "Lambda Invocations",
+        "stat": "Sum",
+        "period": 300,
+        "metrics": [
+          ["AWS/Lambda", "Invocations", "FunctionName", "AuthFunction"],
+          [".", "Invocations", "FunctionName", "UserFunction"],
+          [".", "Invocations", "FunctionName", "DataFunction"],
+          [".", "Invocations", "FunctionName", "FileFunction"]
+        ]
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "Error Rate",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/Lambda", "Errors", "FunctionName", "*"],
+          [".", "Invocations", "FunctionName", "*"]
+        ],
+        "formula": "100 * ERRORS / INVOCATIONS"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "Duration (ms)",
+        "stat": "p99",
+        "period": 300,
+        "metrics": [
+          ["AWS/Lambda", "Duration", "FunctionName", "*"]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+name: CloudWatch Alerts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-alerts:
+    name: Setup CloudWatch Alerts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Error Rate Alarm
+        run: |
+          aws cloudwatch put-metric-alarm \
+            --alarm-name serverless-backend-error-rate \
+            --alarm-description "Error rate > 1%" \
+            --metric-name Errors \
+            --namespace AWS/Lambda \
+            --statistic Sum \
+            --period 300 \
+            --threshold 1 \
+            --comparison-operator GreaterThanThreshold \
+            --evaluation-periods 2 \
+            --dimensions Name=FunctionName,Value=*
+
+      - name: Create Latency Alarm
+        run: |
+          aws cloudwatch put-metric-alarm \
+            --alarm-name serverless-backend-latency \
+            --alarm-description "p99 latency > 2000ms" \
+            --metric-name Duration \
+            --namespace AWS/Lambda \
+            --statistic Maximum \
+            --period 300 \
+            --threshold 2000 \
+            --comparison-operator GreaterThanThreshold \
+            --evaluation-periods 2 \
+            --dimensions Name=FunctionName,Value=*
